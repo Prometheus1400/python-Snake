@@ -7,9 +7,9 @@ class Snake:
         self.direction = direction
     
     # public methods
-    def ate_apple():
+    def ate_apple(self):
         pass
 
-    def collided():
+    def kill(self):
         pass
     

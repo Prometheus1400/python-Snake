@@ -5,7 +5,7 @@ from game_pieces.snake import Snake
 #==== immutable values ====
 game_size = 2000
 game_piece_size = 50
-move_speed = 2
+move_speed = 4
 color_red = (255,0,0)
 color_green = (0,255,0)
 #==========================
@@ -44,15 +44,14 @@ while not crashed:
         # detects arrow keys and logs it in last_key_pressed
         if event.type == pygame.KEYDOWN:
             last_key_pressed = event.key
-        
-    if (last_key_pressed == pygame.K_UP) and (snake.x % 50 == 0):
+    # assigns direction change only if x or y pos is in multiples of game_piece_size  
+    if (last_key_pressed == pygame.K_UP) and (snake.x % game_piece_size == 0):
         snake.direction = 'up'
-        print('turned UP')
-    elif (last_key_pressed == pygame.K_DOWN) and (snake.x % 50 == 0):
+    elif (last_key_pressed == pygame.K_DOWN) and (snake.x % game_piece_size == 0):
         snake.direction = 'down'
-    elif (last_key_pressed == pygame.K_LEFT) and (snake.y % 50 == 0):
+    elif (last_key_pressed == pygame.K_LEFT) and (snake.y % game_piece_size == 0):
         snake.direction = 'left'
-    elif (last_key_pressed == pygame.K_RIGHT) and (snake.y % 50 == 0):
+    elif (last_key_pressed == pygame.K_RIGHT) and (snake.y % game_piece_size == 0):
         snake.direction = 'right'
 
     # moves snake in the current direction incrementally every iteration
@@ -67,8 +66,15 @@ while not crashed:
             snake.x = snake.x - move_speed
         elif snake.direction == 'right':
             snake.x = snake.x + move_speed
-    # update snake position
+    
+    # detect snake eating apple
+    if (snake.x == apple.x) and (snake.y == apple.y):
+        apple.rand_pos()
+
+    #gameDisplay = pygame.display.set_mode((game_size,game_size))
+    # update snake and apple position
     pygame.draw.rect(gameDisplay,color_green,[snake.x,snake.y,game_piece_size,game_piece_size])
+    pygame.draw.rect(gameDisplay,color_red,[apple.x,apple.y,game_piece_size,game_piece_size])
     # update whole screen
     pygame.display.update()
     print(snake.x, snake.y)
