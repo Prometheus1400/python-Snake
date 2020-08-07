@@ -16,7 +16,7 @@ pygame.display.set_caption('Python Snake!')
 
 # get starting random position for Apple
 apple = Apple()
-print(apple.x)
+apple.read()
 
 
 
