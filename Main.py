@@ -36,24 +36,26 @@ crashed = False
 last_key_pressed = None
 # creates a while loop that contains the game instance
 while not crashed:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         # runs if x (to close window) has been pressed
         if event.type == pygame.QUIT:
             crashed = True
-        
         # detects arrow keys and logs it in last_key_pressed
         if event.type == pygame.KEYDOWN:
             last_key_pressed = event.key
         
-        if (last_key_pressed == pygame.K_UP) and (snake.y % 50 == 0):
-            snake.direction = 'up'
-        elif (last_key_pressed == pygame.K_DOWN) and (snake.y % 50 == 0):
-            snake.direction = 'down'
-        elif (last_key_pressed == pygame.K_LEFT) and (snake.x % 50 == 0):
-            snake.direction = 'left'
-        elif (last_key_pressed == pygame.K_RIGHT) and (snake.x % 50 == 0):
-            snake.direction = 'right'
+    if (last_key_pressed == pygame.K_UP) and (snake.x % 50 == 0):
+        snake.direction = 'up'
+        print('turned UP')
+    elif (last_key_pressed == pygame.K_DOWN) and (snake.x % 50 == 0):
+        snake.direction = 'down'
+    elif (last_key_pressed == pygame.K_LEFT) and (snake.y % 50 == 0):
+        snake.direction = 'left'
+    elif (last_key_pressed == pygame.K_RIGHT) and (snake.y % 50 == 0):
+        snake.direction = 'right'
 
+    # moves snake in the current direction incrementally every iteration
     if snake.direction == 'none':
         pass
     else:
