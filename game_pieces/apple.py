@@ -23,7 +23,5 @@ class Apple:
         y = r.randint(1,max_rand_int+1)
 
         # get x and y positions in terms of the grid factor 50 (intervals of 50)
-        self.x = (self.game_size % x) * self.piece_width
-        self.y = (self.game_size % y) * self.piece_width
-
-        return x,y
+        self.x = x * self.piece_width
+        self.y = y * self.piece_width
