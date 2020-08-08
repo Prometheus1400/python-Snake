@@ -19,8 +19,8 @@ class Apple:
         max_rand_int = self.game_size / self.piece_width
 
         # assign x and y a random value between 1 and (length of game / 50)
-        x = r.randint(1,max_rand_int+1)
-        y = r.randint(1,max_rand_int+1)
+        x = r.randint(0,max_rand_int)
+        y = r.randint(0,max_rand_int)
 
         # get x and y positions in terms of the grid factor 50 (intervals of 50)
         self.x = x * self.piece_width

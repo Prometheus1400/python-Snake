@@ -1,18 +1,19 @@
 import pygame
-from game_pieces.apple import Apple
-from game_pieces.snake import Snake
+from game_pieces.apple  import Apple
+from game_pieces.snake  import Snake
+from game_pieces.eraser import Eraser
 
-#==== immutable values ====
+'''==== immutable values ===='''
 game_size = 2000
 game_piece_size = 50
-move_speed = 4
+move_speed = 5
 color_red = (255,0,0)
 color_green = (0,255,0)
-#==========================
+color_black = (0,0,0)
+'''=========================='''
 
 # initialize pygame
 pygame.init()
-
 # set up canvas and label
 gameDisplay = pygame.display.set_mode((game_size,game_size))
 pygame.display.set_caption('Python Snake!')
@@ -32,6 +33,13 @@ snake = Snake()
 # draws the snake with length 0
 pygame.draw.rect(gameDisplay,color_green,[snake.x,snake.y,game_piece_size,game_piece_size])
 ''' =================================================================================='''
+
+''' Initialize Eraser ================================================================='''
+# declare eraser as type class:Eraser
+eraser = Eraser(game_piece_size)
+eraser.add_to_history([snake.x,snake.y])
+''' =================================================================================='''
+
 crashed = False
 last_key_pressed = None
 # creates a while loop that contains the game instance
@@ -67,15 +75,23 @@ while not crashed:
         elif snake.direction == 'right':
             snake.x = snake.x + move_speed
     
+    # detecting one movement and adding the position into erasers history
+    if (snake.direction == 'none') or (snake.x == apple.x and snake.y == apple.y):
+        pass
+    else:
+        if (snake.x % 50 == 0) or (snake.y % 50 == 0):
+            pygame.draw.rect(gameDisplay,color_black,[eraser.get_position()[0],eraser.get_position()[1],game_piece_size,game_piece_size])
+            eraser.add_to_history([snake.x,snake.y])
+
     # detect snake eating apple
     if (snake.x == apple.x) and (snake.y == apple.y):
         apple.rand_pos()
-
+        eraser.index_back_one()
+    
     #gameDisplay = pygame.display.set_mode((game_size,game_size))
     # update snake and apple position
-    pygame.draw.rect(gameDisplay,color_green,[snake.x,snake.y,game_piece_size,game_piece_size])
     pygame.draw.rect(gameDisplay,color_red,[apple.x,apple.y,game_piece_size,game_piece_size])
+    pygame.draw.rect(gameDisplay,color_green,[snake.x,snake.y,game_piece_size,game_piece_size])
     # update whole screen
     pygame.display.update()
-    print(snake.x, snake.y)
     
