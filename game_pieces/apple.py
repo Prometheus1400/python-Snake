@@ -23,7 +23,7 @@ class Apple:
         # initialize freespace as false to trigger the while loop
         self.freespace = False
         while self.freespace == False:
-            # assign x and y a random value between 1 and (length of game / 50)
+            # assign x and y a random value between 1 and (length of game / width of gamepiece - 1) (default is 1 - 39)
             old_x = r.randint(0,max_rand_int-1)
             old_y = r.randint(0,max_rand_int-1)
             # get x and y positions in terms of the grid factor 50 (intervals of 50)
@@ -37,11 +37,11 @@ class Apple:
                     break
                 else:
                     self.freespace = True
-
+        # assign the apple a new position
         self.x = new_x
         self.y = new_y
         
 
-    
+    # draws the apple
     def draw(self):
         pygame.draw.rect(self.gameDisplay,self.color,[self.x,self.y,self.apple_size,self.apple_size])

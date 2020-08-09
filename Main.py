@@ -6,7 +6,8 @@ from game_pieces.eraser import Eraser
 '''==== gamerule values ===='''
 game_size = 2000
 game_piece_size = 50
-move_speed = 5
+move_speed = 2
+growth_factor = 20
 '''=========================='''
 
 
@@ -18,7 +19,7 @@ pygame.display.set_caption('Python Snake!')
 
 ''' Initialize Snake ================================================================='''
 # declare snake as type class:Snake
-snake = Snake(game_size, game_piece_size,move_speed)
+snake = Snake(game_size, game_piece_size,move_speed,growth_factor)
 # draws the snake with length 0
 snake.draw()
 ''' =================================================================================='''

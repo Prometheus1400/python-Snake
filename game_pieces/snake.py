@@ -4,20 +4,22 @@ class Snake:
     # class attributes
     color = (0,255,0)
     # construct instance attributes
-    def __init__(self,game_size,snake_size,move_speed,x=1000,y=1000,direction='none',history=[],counter=0,start_eraser=False,delay=False):
+    def __init__(self,game_size,snake_size,move_speed,growth,x=1000,y=1000,direction='none',history=[],counter=0,start_eraser=False,delay=False):
         self.game_size = game_size
         self.snake_size = snake_size
         self.gameDisplay = pygame.display.set_mode((game_size,game_size))
         self.x = x
         self.y = y
         self.direction = direction
-        self.history = [[x,y]]
+        self.history = [[x,y]] # list of positions the snakes body currently occupies
         self.counter = counter
-        self.start_eraser = start_eraser
-        self.move_speed = move_speed
-        self.delay = delay
+        self.start_eraser = start_eraser # when this is true, the eraser can first be drawn
+        self.move_speed = move_speed # the increment the snake moves with each iteration of the main program
+        self.delay = delay # delay to allow snake to grow after eating an apple (temporarily stops the erase_history function)
+        self.growth = growth # factor at which the snake grows after eating an apple (default is 1)
 
     # public methods
+    # sets the delay to true
     def ate_apple(self):
         self.delay = True
 
@@ -33,7 +35,7 @@ class Snake:
             self.counter = 0
         else:
             self.counter += 1
-            if self.counter >= (self.snake_size / self.move_speed):
+            if self.counter >= (self.snake_size/self.move_speed - 1)*self.growth:
                 self.delay = False
 
     # not utilied yet
