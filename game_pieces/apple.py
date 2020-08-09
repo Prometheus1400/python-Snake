@@ -19,13 +19,13 @@ class Apple:
     def rand_pos(self,snake_history):
         # value of game_size divided by width of game piece (50)
         max_rand_int = self.game_size / self.apple_size
-        
+
         # initialize freespace as false to trigger the while loop
         self.freespace = False
         while self.freespace == False:
             # assign x and y a random value between 1 and (length of game / 50)
-            old_x = r.randint(0,max_rand_int)
-            old_y = r.randint(0,max_rand_int)
+            old_x = r.randint(0,max_rand_int-1)
+            old_y = r.randint(0,max_rand_int-1)
             # get x and y positions in terms of the grid factor 50 (intervals of 50)
             new_x = old_x * self.apple_size
             new_y = old_y * self.apple_size

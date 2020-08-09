@@ -3,11 +3,12 @@ from game_pieces.apple  import Apple
 from game_pieces.snake  import Snake
 from game_pieces.eraser import Eraser
 
-'''==== immutable values ===='''
+'''==== gamerule values ===='''
 game_size = 2000
 game_piece_size = 50
-move_speed = 5
+move_speed = 2
 '''=========================='''
+
 
 # initialize pygame
 pygame.init()
@@ -34,7 +35,7 @@ apple.draw()
 # declare eraser as type class:Eraser
 eraser = Eraser(game_size,game_piece_size)
 ''' =================================================================================='''
-count = 0
+
 crashed = False
 last_key_pressed = None
 # creates a while loop that contains the game instance
@@ -66,8 +67,7 @@ while not crashed:
         snake.erase_history()
     #gameDisplay = pygame.display.set_mode((game_size,game_size))
     # update snake and apple position
-    snake.draw()
     apple.draw()
+    snake.draw()
     # update whole screen
     pygame.display.update()
-    print(snake.y)
