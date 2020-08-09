@@ -6,7 +6,7 @@ from game_pieces.eraser import Eraser
 '''==== gamerule values ===='''
 game_size = 2000
 game_piece_size = 50
-move_speed = 2
+move_speed = 5
 '''=========================='''
 
 
@@ -53,19 +53,22 @@ while not crashed:
     snake.change_direction(last_key_pressed)
     # moves snake in the current direction incrementally every iteration
     snake.slither()
+    # checkes for snake collision with sides or body. if true the game quits
     if snake.check_collision() == True:
         crashed = True
-    #updates the history of the body of the snake
+    #updates the history of the body of the snake. adds current position into list: snake.history
     snake.update_history()
 
     # detect snake eating apple
     if (snake.x == apple.x) and (snake.y == apple.y):
         apple.rand_pos(snake.history)
         snake.ate_apple()
+    
+    # method: check_for_eraser_start called by snake.slither()
     if snake.start_eraser == True:
         eraser.draw(snake.history)
-        snake.erase_history()
-    #gameDisplay = pygame.display.set_mode((game_size,game_size))
+        snake.erase_history() # pops the first element of snake.history
+
     # update snake and apple position
     apple.draw()
     snake.draw()

@@ -4,45 +4,47 @@ class Snake:
     # class attributes
     color = (0,255,0)
     # construct instance attributes
-    def __init__(self,game_size,snake_size,move_speed,x=1000,y=1000,length=0,direction='none',history=[],counter=0,start_eraser=False,delay=False,counter2=0):
+    def __init__(self,game_size,snake_size,move_speed,x=1000,y=1000,direction='none',history=[],counter=0,start_eraser=False,delay=False):
         self.game_size = game_size
         self.snake_size = snake_size
+        self.gameDisplay = pygame.display.set_mode((game_size,game_size))
         self.x = x
         self.y = y
-        self.length = length
         self.direction = direction
         self.history = [[x,y]]
-        self.gameDisplay = pygame.display.set_mode((game_size,game_size))
         self.counter = counter
         self.start_eraser = start_eraser
         self.move_speed = move_speed
         self.delay = delay
-        self.counter2 = counter2
 
     # public methods
     def ate_apple(self):
         self.delay = True
 
+    # adds current position into memory
     def update_history(self):
         if self.direction != 'none':
             self.history.append([self.x, self.y])
     
+    # pops the first element from memory, delay attribute utilized when snake eats apple
     def erase_history(self):
         if self.delay == False:
             self.history.pop(0)
-            self.counter2 = 0
+            self.counter = 0
         else:
-            self.counter2 += 1
-            if self.counter2 >= (self.snake_size / self.move_speed):
+            self.counter += 1
+            if self.counter >= (self.snake_size / self.move_speed):
                 self.delay = False
 
-
+    # not utilied yet
     def kill(self):
         pass
 
+    # draws the snake
     def draw(self):
         pygame.draw.rect(self.gameDisplay,self.color,[self.x,self.y,self.snake_size,self.snake_size])
 
+    # changes direction of the snake
     def change_direction(self,key):
         if (key == pygame.K_UP) and (self.x % self.snake_size == 0):
             self.direction = 'up'
@@ -53,11 +55,11 @@ class Snake:
         elif (key == pygame.K_RIGHT) and (self.y % self.snake_size == 0):
             self.direction = 'right'
 
+    #moves the snake in the current direction, does not do anything until a key is initially pressed
     def slither(self):
         if self.direction == 'none':
             pass
         else:
-            self.check_for_eraser_start()
             if self.direction == 'up':
                 self.y = self.y - self.move_speed
             elif self.direction == 'down':
@@ -66,12 +68,17 @@ class Snake:
                 self.x = self.x - self.move_speed
             elif self.direction == 'right':
                 self.x = self.x + self.move_speed
+            self.check_for_eraser_start()
+
 
     def check_for_eraser_start(self):
-        self.counter += 1
-        if self.counter == self.snake_size / self.move_speed:
-            self.start_eraser = True
+        if self.start_eraser == True:
+            pass
+        else:
+            if (self.direction != 'none') and (self.x % 50 == 0) and (self.y % 50 == 0): # if the snake is moving and has moved an entire space
+                self.start_eraser = True
 
+    # checks the snake for collision
     def check_collision(self):
         if self.start_eraser == True:
             # checks snake for collision with itself
